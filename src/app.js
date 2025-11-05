@@ -4,6 +4,7 @@ const path = require('path');
 const swaggerUi = require('swagger-ui-express');
 const yaml = require('yamljs');
 const routes = require('./routes');
+const { uploadRoot } = require('./config/uploads');
 
 const swaggerDocument = yaml.load(path.resolve(__dirname, '..', 'swagger.yaml'));
 
@@ -11,6 +12,13 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(
+  '/uploads',
+  express.static(uploadRoot, {
+    index: false,
+    maxAge: '1d',
+  }),
+);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));
 app.get('/docs/swagger.json', (_req, res) => {
   res.json(swaggerDocument);
