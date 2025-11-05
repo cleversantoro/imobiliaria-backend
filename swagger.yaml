@@ -1,0 +1,1020 @@
+openapi: 3.0.3
+info:
+  title: Imobiliaria API
+  version: "1.0.0"
+  description: |
+    API REST para gestão de usuários, categorias, cidades, imóveis, fotos e contratos de uma imobiliária.
+servers:
+  - url: http://localhost:3000/api
+    description: Ambiente local de desenvolvimento
+tags:
+  - name: Health
+  - name: Usuários
+  - name: Categorias
+  - name: Cidades
+  - name: Imóveis
+  - name: Fotos
+  - name: Contratos
+paths:
+  /health:
+    get:
+      tags: [Health]
+      summary: Verificar status da API
+      responses:
+        '200':
+          description: API respondendo corretamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  timestamp:
+                    type: string
+                    format: date-time
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /usuarios:
+    get:
+      tags: [Usuários]
+      summary: Listar usuários
+      parameters:
+        - in: query
+          name: tipo_usuario
+          schema:
+            $ref: '#/components/schemas/TipoUsuario'
+          description: Filtrar por tipo de usuário.
+      responses:
+        '200':
+          description: Lista de usuários.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Usuario'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags: [Usuários]
+      summary: Criar novo usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioCreateInput'
+      responses:
+        '201':
+          description: Usuário criado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /usuarios/{id}:
+    parameters:
+      - $ref: '#/components/parameters/IdPathParam'
+    get:
+      tags: [Usuários]
+      summary: Buscar usuário por ID
+      responses:
+        '200':
+          description: Usuário encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags: [Usuários]
+      summary: Atualizar usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioUpdateInput'
+      responses:
+        '200':
+          description: Usuário atualizado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags: [Usuários]
+      summary: Remover usuário
+      responses:
+        '204':
+          description: Usuário removido com sucesso.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /categorias:
+    get:
+      tags: [Categorias]
+      summary: Listar categorias
+      responses:
+        '200':
+          description: Lista de categorias.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Categoria'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags: [Categorias]
+      summary: Criar nova categoria
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoriaInput'
+      responses:
+        '201':
+          description: Categoria criada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categoria'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /categorias/{id}:
+    parameters:
+      - $ref: '#/components/parameters/IdPathParam'
+    get:
+      tags: [Categorias]
+      summary: Buscar categoria por ID
+      responses:
+        '200':
+          description: Categoria encontrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categoria'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags: [Categorias]
+      summary: Atualizar categoria
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoriaUpdateInput'
+      responses:
+        '200':
+          description: Categoria atualizada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categoria'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags: [Categorias]
+      summary: Remover categoria
+      responses:
+        '204':
+          description: Categoria removida.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /cidades:
+    get:
+      tags: [Cidades]
+      summary: Listar cidades
+      parameters:
+        - in: query
+          name: estado
+          schema:
+            type: string
+            minLength: 2
+            maxLength: 2
+          description: UF para filtragem (ex. SP).
+      responses:
+        '200':
+          description: Lista de cidades.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cidade'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags: [Cidades]
+      summary: Criar nova cidade
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CidadeInput'
+      responses:
+        '201':
+          description: Cidade criada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cidade'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /cidades/{id}:
+    parameters:
+      - $ref: '#/components/parameters/IdPathParam'
+    get:
+      tags: [Cidades]
+      summary: Buscar cidade por ID
+      responses:
+        '200':
+          description: Cidade encontrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cidade'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags: [Cidades]
+      summary: Atualizar cidade
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CidadeUpdateInput'
+      responses:
+        '200':
+          description: Cidade atualizada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cidade'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags: [Cidades]
+      summary: Remover cidade
+      responses:
+        '204':
+          description: Cidade removida.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /imoveis:
+    get:
+      tags: [Imóveis]
+      summary: Listar imóveis
+      parameters:
+        - $ref: '#/components/parameters/TipoImovelQuery'
+        - $ref: '#/components/parameters/StatusImovelQuery'
+        - $ref: '#/components/parameters/CategoriaIdQuery'
+        - $ref: '#/components/parameters/CidadeIdQuery'
+        - $ref: '#/components/parameters/ValorMinQuery'
+        - $ref: '#/components/parameters/ValorMaxQuery'
+        - in: query
+          name: busca
+          schema:
+            type: string
+          description: Termo para busca por título ou descrição.
+      responses:
+        '200':
+          description: Lista de imóveis.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImovelListItem'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags: [Imóveis]
+      summary: Criar novo imóvel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImovelCreateInput'
+      responses:
+        '201':
+          description: Imóvel criado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Imovel'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /imoveis/{id}:
+    parameters:
+      - $ref: '#/components/parameters/IdPathParam'
+    get:
+      tags: [Imóveis]
+      summary: Buscar imóvel por ID
+      responses:
+        '200':
+          description: Imóvel encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImovelDetail'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags: [Imóveis]
+      summary: Atualizar imóvel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImovelUpdateInput'
+      responses:
+        '200':
+          description: Imóvel atualizado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Imovel'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags: [Imóveis]
+      summary: Remover imóvel
+      responses:
+        '204':
+          description: Imóvel removido.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /imoveis/{imovelId}/fotos:
+    parameters:
+      - $ref: '#/components/parameters/ImovelIdPathParam'
+    get:
+      tags: [Fotos]
+      summary: Listar fotos de um imóvel
+      responses:
+        '200':
+          description: Lista de fotos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Foto'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags: [Fotos]
+      summary: Adicionar foto ao imóvel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FotoInput'
+      responses:
+        '201':
+          description: Foto criada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Foto'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /imoveis/{imovelId}/fotos/{fotoId}:
+    parameters:
+      - $ref: '#/components/parameters/ImovelIdPathParam'
+      - $ref: '#/components/parameters/FotoIdPathParam'
+    delete:
+      tags: [Fotos]
+      summary: Remover foto do imóvel
+      responses:
+        '204':
+          description: Foto removida.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /contratos:
+    get:
+      tags: [Contratos]
+      summary: Listar contratos
+      parameters:
+        - in: query
+          name: imovel_id
+          schema:
+            type: integer
+            minimum: 1
+          description: Filtrar por imóvel.
+        - in: query
+          name: usuario_id
+          schema:
+            type: integer
+            minimum: 1
+          description: Filtrar por usuário.
+        - in: query
+          name: tipo_contrato
+          schema:
+            $ref: '#/components/schemas/TipoContrato'
+          description: Filtrar por tipo de contrato.
+      responses:
+        '200':
+          description: Lista de contratos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contrato'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags: [Contratos]
+      summary: Criar novo contrato
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContratoCreateInput'
+      responses:
+        '201':
+          description: Contrato criado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contrato'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /contratos/{id}:
+    parameters:
+      - $ref: '#/components/parameters/IdPathParam'
+    get:
+      tags: [Contratos]
+      summary: Buscar contrato por ID
+      responses:
+        '200':
+          description: Contrato encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contrato'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags: [Contratos]
+      summary: Atualizar contrato
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContratoUpdateInput'
+      responses:
+        '200':
+          description: Contrato atualizado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contrato'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags: [Contratos]
+      summary: Remover contrato
+      responses:
+        '204':
+          description: Contrato removido.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  parameters:
+    IdPathParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+      description: Identificador numérico do recurso.
+    ImovelIdPathParam:
+      name: imovelId
+      in: path
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+      description: Identificador do imóvel.
+    FotoIdPathParam:
+      name: fotoId
+      in: path
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+      description: Identificador da foto.
+    TipoImovelQuery:
+      name: tipo
+      in: query
+      schema:
+        $ref: '#/components/schemas/TipoImovel'
+      description: Tipo de imóvel para filtragem.
+    StatusImovelQuery:
+      name: status
+      in: query
+      schema:
+        $ref: '#/components/schemas/StatusImovel'
+      description: Status do imóvel para filtragem.
+    CategoriaIdQuery:
+      name: categoria_id
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+      description: Filtrar por categoria.
+    CidadeIdQuery:
+      name: cidade_id
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+      description: Filtrar por cidade.
+    ValorMinQuery:
+      name: valor_min
+      in: query
+      schema:
+        type: number
+        format: float
+        minimum: 0
+      description: Valor mínimo.
+    ValorMaxQuery:
+      name: valor_max
+      in: query
+      schema:
+        type: number
+        format: float
+        minimum: 0
+      description: Valor máximo.
+  responses:
+    BadRequest:
+      description: Requisição inválida.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Recurso não encontrado.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: Conflito ao processar a requisição (duplicidade ou restrição).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Erro interno.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+    TipoUsuario:
+      type: string
+      enum: [admin, cliente, corretor]
+    Usuario:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
+          format: email
+        telefone:
+          type: string
+          nullable: true
+        tipo_usuario:
+          $ref: '#/components/schemas/TipoUsuario'
+        criado_em:
+          type: string
+          format: date-time
+      required:
+        - id
+        - nome
+        - email
+        - tipo_usuario
+        - criado_em
+    UsuarioCreateInput:
+      type: object
+      properties:
+        nome:
+          type: string
+        email:
+          type: string
+          format: email
+        telefone:
+          type: string
+          nullable: true
+        tipo_usuario:
+          $ref: '#/components/schemas/TipoUsuario'
+      required:
+        - nome
+        - email
+    UsuarioUpdateInput:
+      allOf:
+        - $ref: '#/components/schemas/UsuarioCreateInput'
+    Categoria:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+      required:
+        - id
+        - nome
+    CategoriaInput:
+      type: object
+      properties:
+        nome:
+          type: string
+      required:
+        - nome
+    CategoriaUpdateInput:
+      allOf:
+        - $ref: '#/components/schemas/CategoriaInput'
+    Cidade:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        estado:
+          type: string
+          minLength: 2
+          maxLength: 2
+      required:
+        - id
+        - nome
+        - estado
+    CidadeInput:
+      type: object
+      properties:
+        nome:
+          type: string
+        estado:
+          type: string
+          minLength: 2
+          maxLength: 2
+      required:
+        - nome
+        - estado
+    CidadeUpdateInput:
+      allOf:
+        - $ref: '#/components/schemas/CidadeInput'
+    TipoImovel:
+      type: string
+      enum: [casa, apartamento, terreno, comercial]
+    StatusImovel:
+      type: string
+      enum: [disponivel, alugado, vendido]
+    ImovelBase:
+      type: object
+      properties:
+        id:
+          type: integer
+        titulo:
+          type: string
+        descricao:
+          type: string
+          nullable: true
+        tipo:
+          $ref: '#/components/schemas/TipoImovel'
+        categoria_id:
+          type: integer
+          nullable: true
+        cidade_id:
+          type: integer
+          nullable: true
+        endereco:
+          type: string
+          nullable: true
+        valor:
+          type: number
+          format: float
+        status:
+          $ref: '#/components/schemas/StatusImovel'
+        criado_em:
+          type: string
+          format: date-time
+      required:
+        - id
+        - titulo
+        - tipo
+        - valor
+        - status
+        - criado_em
+    ImovelListItem:
+      allOf:
+        - $ref: '#/components/schemas/ImovelBase'
+        - type: object
+          properties:
+            categoria_nome:
+              type: string
+              nullable: true
+            cidade_nome:
+              type: string
+              nullable: true
+            cidade_estado:
+              type: string
+              minLength: 2
+              maxLength: 2
+              nullable: true
+    Imovel:
+      allOf:
+        - $ref: '#/components/schemas/ImovelListItem'
+    ImovelDetail:
+      allOf:
+        - $ref: '#/components/schemas/Imovel'
+        - type: object
+          properties:
+            fotos:
+              type: array
+              items:
+                $ref: '#/components/schemas/Foto'
+    ImovelCreateInput:
+      type: object
+      properties:
+        titulo:
+          type: string
+        descricao:
+          type: string
+          nullable: true
+        tipo:
+          $ref: '#/components/schemas/TipoImovel'
+        categoria_id:
+          type: integer
+          nullable: true
+        cidade_id:
+          type: integer
+          nullable: true
+        endereco:
+          type: string
+          nullable: true
+        valor:
+          type: number
+          format: float
+        status:
+          $ref: '#/components/schemas/StatusImovel'
+      required:
+        - titulo
+        - tipo
+        - valor
+    ImovelUpdateInput:
+      allOf:
+        - $ref: '#/components/schemas/ImovelCreateInput'
+    Foto:
+      type: object
+      properties:
+        id:
+          type: integer
+        imovel_id:
+          type: integer
+        url:
+          type: string
+          format: uri
+        descricao:
+          type: string
+          nullable: true
+      required:
+        - id
+        - imovel_id
+        - url
+    FotoInput:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+        descricao:
+          type: string
+          nullable: true
+      required:
+        - url
+    TipoContrato:
+      type: string
+      enum: [aluguel, venda]
+    Contrato:
+      type: object
+      properties:
+        id:
+          type: integer
+        imovel_id:
+          type: integer
+        usuario_id:
+          type: integer
+        tipo_contrato:
+          $ref: '#/components/schemas/TipoContrato'
+        data_inicio:
+          type: string
+          format: date
+          nullable: true
+        data_fim:
+          type: string
+          format: date
+          nullable: true
+        valor:
+          type: number
+          format: float
+        criado_em:
+          type: string
+          format: date-time
+        imovel_titulo:
+          type: string
+        usuario_nome:
+          type: string
+        usuario_email:
+          type: string
+          format: email
+      required:
+        - id
+        - imovel_id
+        - usuario_id
+        - tipo_contrato
+        - valor
+        - criado_em
+        - imovel_titulo
+        - usuario_nome
+        - usuario_email
+    ContratoCreateInput:
+      type: object
+      properties:
+        imovel_id:
+          type: integer
+        usuario_id:
+          type: integer
+        tipo_contrato:
+          $ref: '#/components/schemas/TipoContrato'
+        data_inicio:
+          type: string
+          format: date
+          nullable: true
+        data_fim:
+          type: string
+          format: date
+          nullable: true
+        valor:
+          type: number
+          format: float
+      required:
+        - imovel_id
+        - usuario_id
+        - tipo_contrato
+        - valor
+    ContratoUpdateInput:
+      allOf:
+        - $ref: '#/components/schemas/ContratoCreateInput'

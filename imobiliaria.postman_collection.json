@@ -1,0 +1,885 @@
+{
+  "info": {
+    "_postman_id": "5a39bde0-4c48-4b6b-8d62-a6b9e3a58519",
+    "name": "Imobiliaria API",
+    "description": "Collection com os endpoints principais da API de imobiliária.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Status da API",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Usuários",
+      "item": [
+        {
+          "name": "Listar Usuários",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "usuarios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Usuários por Tipo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/usuarios?tipo_usuario=corretor",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "usuarios"
+              ],
+              "query": [
+                {
+                  "key": "tipo_usuario",
+                  "value": "corretor"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Usuário",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const data = pm.response.json();",
+                  "  if (data && data.id) {",
+                  "    pm.collectionVariables.set('usuarioId', data.id);",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"João da Silva\",\n  \"email\": \"joao.silva@example.com\",\n  \"telefone\": \"11999999999\",\n  \"tipo_usuario\": \"cliente\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "usuarios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Usuário por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/usuarios/{{usuarioId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "usuarios",
+                "{{usuarioId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Usuário",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"telefone\": \"11988887777\",\n  \"tipo_usuario\": \"corretor\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/usuarios/{{usuarioId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "usuarios",
+                "{{usuarioId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remover Usuário",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/usuarios/{{usuarioId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "usuarios",
+                "{{usuarioId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Categorias",
+      "item": [
+        {
+          "name": "Listar Categorias",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categorias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categorias"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Categoria",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const data = pm.response.json();",
+                  "  if (data && data.id) {",
+                  "    pm.collectionVariables.set('categoriaId', data.id);",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Residencial\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/categorias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categorias"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Categoria por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categorias/{{categoriaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categorias",
+                "{{categoriaId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Categoria",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Residencial Premium\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/categorias/{{categoriaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categorias",
+                "{{categoriaId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remover Categoria",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categorias/{{categoriaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categorias",
+                "{{categoriaId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cidades",
+      "item": [
+        {
+          "name": "Listar Cidades",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cidades",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cidades"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Cidades por Estado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cidades?estado=SP",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cidades"
+              ],
+              "query": [
+                {
+                  "key": "estado",
+                  "value": "SP"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Cidade",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const data = pm.response.json();",
+                  "  if (data && data.id) {",
+                  "    pm.collectionVariables.set('cidadeId', data.id);",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"São Paulo\",\n  \"estado\": \"SP\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cidades",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cidades"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Cidade por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cidades/{{cidadeId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cidades",
+                "{{cidadeId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Cidade",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"São Paulo\",\n  \"estado\": \"SP\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cidades/{{cidadeId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cidades",
+                "{{cidadeId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remover Cidade",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cidades/{{cidadeId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cidades",
+                "{{cidadeId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Imóveis",
+      "item": [
+        {
+          "name": "Listar Imóveis",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/imoveis",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "imoveis"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Imóveis com Filtros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/imoveis?tipo=apartamento&status=disponivel&valor_max=500000",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "imoveis"
+              ],
+              "query": [
+                {
+                  "key": "tipo",
+                  "value": "apartamento"
+                },
+                {
+                  "key": "status",
+                  "value": "disponivel"
+                },
+                {
+                  "key": "valor_max",
+                  "value": "500000"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Imóvel",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const data = pm.response.json();",
+                  "  if (data && data.id) {",
+                  "    pm.collectionVariables.set('imovelId', data.id);",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Apartamento moderno\",\n  \"descricao\": \"Apartamento com 2 quartos e vaga de garagem.\",\n  \"tipo\": \"apartamento\",\n  \"categoria_id\": {{categoriaId}},\n  \"cidade_id\": {{cidadeId}},\n  \"endereco\": \"Rua das Flores, 123\",\n  \"valor\": 450000,\n  \"status\": \"disponivel\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/imoveis",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "imoveis"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Imóvel por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/imoveis/{{imovelId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "imoveis",
+                "{{imovelId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Imóvel",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"valor\": 430000,\n  \"status\": \"alugado\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/imoveis/{{imovelId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "imoveis",
+                "{{imovelId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remover Imóvel",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/imoveis/{{imovelId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "imoveis",
+                "{{imovelId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Fotos do Imóvel",
+          "item": [
+            {
+              "name": "Listar Fotos",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/imoveis/{{imovelId}}/fotos",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "imoveis",
+                    "{{imovelId}}",
+                    "fotos"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Adicionar Foto",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "if (pm.response.code === 201) {",
+                      "  const data = pm.response.json();",
+                      "  if (data && data.id) {",
+                      "    pm.collectionVariables.set('fotoId', data.id);",
+                      "  }",
+                      "}"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"https://example.com/fotos/apartamento1.jpg\",\n  \"descricao\": \"Sala de estar\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/imoveis/{{imovelId}}/fotos",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "imoveis",
+                    "{{imovelId}}",
+                    "fotos"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Remover Foto",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/imoveis/{{imovelId}}/fotos/{{fotoId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "imoveis",
+                    "{{imovelId}}",
+                    "fotos",
+                    "{{fotoId}}"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Contratos",
+      "item": [
+        {
+          "name": "Listar Contratos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/contratos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "contratos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Contratos por Tipo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/contratos?tipo_contrato=aluguel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "contratos"
+              ],
+              "query": [
+                {
+                  "key": "tipo_contrato",
+                  "value": "aluguel"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Contrato",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const data = pm.response.json();",
+                  "  if (data && data.id) {",
+                  "    pm.collectionVariables.set('contratoId', data.id);",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"imovel_id\": {{imovelId}},\n  \"usuario_id\": {{usuarioId}},\n  \"tipo_contrato\": \"aluguel\",\n  \"data_inicio\": \"2024-01-01\",\n  \"data_fim\": \"2024-12-31\",\n  \"valor\": 2500\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/contratos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "contratos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Contrato por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/contratos/{{contratoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "contratos",
+                "{{contratoId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Contrato",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"valor\": 2700\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/contratos/{{contratoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "contratos",
+                "{{contratoId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remover Contrato",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/contratos/{{contratoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "contratos",
+                "{{contratoId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api"
+    },
+    {
+      "key": "usuarioId",
+      "value": ""
+    },
+    {
+      "key": "categoriaId",
+      "value": ""
+    },
+    {
+      "key": "cidadeId",
+      "value": ""
+    },
+    {
+      "key": "imovelId",
+      "value": ""
+    },
+    {
+      "key": "fotoId",
+      "value": ""
+    },
+    {
+      "key": "contratoId",
+      "value": ""
+    }
+  ]
+}
